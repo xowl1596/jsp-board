@@ -19,12 +19,26 @@
 </head>
 <body>
 	<%
+		String userID = null;
 		UserDAO userDAO = new UserDAO();
-		int result = userDAO.login(user.getUserID(), user.getUserPW());
 		PrintWriter script = response.getWriter();
 
+		//이미 로그인 되어있는 상태인지 확인
+		if (session.getAttribute("userID") != null) {
+			userID = (String) session.getAttribute("userID");
+		}
+
+		if (userID != null) {
+			script.println("<script>");
+			script.println("alert('이미 로그인 되어 있습니다.')");
+			script.println("location.href = 'index.jsp'");
+			script.println("</script>");
+		}
+
+		//로그인 수행
+		int result = userDAO.login(user.getUserID(), user.getUserPW());
 		if (result == 1) {
-			
+			session.setAttribute("userID", user.getUserID());
 			script.println("<script>");
 			script.println("location.href = 'index.jsp'");
 			script.println("</script>");

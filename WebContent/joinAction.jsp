@@ -23,9 +23,21 @@
 </head>
 <body>
 	<%
+		String userID = null;
 		UserDAO userDAO = new UserDAO();
 		PrintWriter script = response.getWriter();
+		
+		if (session.getAttribute("userID") != null) {
+			userID = (String) session.getAttribute("userID");
+		}
 
+		if (userID != null) {
+			script.println("<script>");
+			script.println("alert('이미 로그인 되어 있습니다.')");
+			script.println("location.href = 'index.jsp'");
+			script.println("</script>");
+		}
+		
 		if (user.getUserID() == null || user.getUserPW() == null || user.getUserName() == null
 				|| user.getUserGender() == null || user.getUserEmail() == null) {
 			script.println("<script>");
@@ -35,6 +47,7 @@
 		} else {
 			int result = userDAO.join(user);
 			if (result == 1) {
+				session.setAttribute("userID", user.getUserID());
 				script.println("<script>");
 				script.println("location.href = 'index.jsp'");
 				script.println("</script>");
