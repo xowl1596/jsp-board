@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device_width, initial-scale=1.0" />
 <link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/main.css"/>
 <title>JSP Board</title>
 </head>
 
@@ -54,10 +55,38 @@
 		<%		
 			}
 		%>
-	
-
 	</nav>
-
+	
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+				<thead>
+					<tr>
+						<th class="table-head">번호</th>
+						<th class="table-head">제목</th>
+						<th class="table-head">작성자</th>
+						<th class="table-head">작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>TITLE</td>
+						<td>WRITER</td>
+						<td>DATE</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>TITLE</td>
+						<td>WRITER</td>
+						<td>DATE</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<a href="write.jsp" class="btn btn-primary float-right">글쓰기</a>
+		</div>
+	</div>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
