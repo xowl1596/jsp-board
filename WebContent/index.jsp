@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="java.io.PrintWriter"%>
+<%@ page import="post.PostDAO"%>
+<%@ page import="post.Post"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 
@@ -15,9 +18,16 @@
 
 <body>
 	<%
-		String userID = null;
+		//현재 로그인 상태인지 확인
+		String userID = null; 
 		if (session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
+		}
+		
+		//현재 보고 있는 페이지 수 확인
+		int pageNum = 1;
+		if(request.getParameter("pageNum") != null){
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 	%>
 	<nav class="navbar navbar-expand-sm bg-light">
@@ -30,7 +40,7 @@
 		</ul>
 
 		<%
-			if (userID == null) {
+			if (userID == null) { //로그인 상태면 로그인 UI를 숨기고 회원관리 UI를 표시
 		%>
 				<div class="dropdown">
 					<button type="button" class="btn btn-primary dropdown-toggle"data-toggle="dropdown">
@@ -69,18 +79,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>TITLE</td>
-						<td>WRITER</td>
-						<td>DATE</td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>TITLE</td>
-						<td>WRITER</td>
-						<td>DATE</td>
-					</tr>
+					<%  //현재 페이지에 맞는 게시물들을 가져와 목록으로 출력
+						PostDAO postDAO = new PostDAO();
+						ArrayList<Post> list = postDAO.getPostList(pageNum);
+						for(int i = 0; i < list.size(); i++){				%>
+							<tr>
+								<td><%= list.get(i).getPostID() %></td>
+								<td><a href="view.jsp?postID=<%= list.get(i).getPostID()%>"><%= list.get(i).getTitle() %></a></td>
+								<td><%= list.get(i).getUserID() %></td>
+								<td><%= list.get(i).getWriteDate() %></td>
+							</tr>
+					<%	}%>
 				</tbody>
 			</table>
 			
