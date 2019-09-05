@@ -25,16 +25,6 @@
 		if (session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
 		}
-		
-		//최대 몇 페이지까지 있는지 확인
-		int maxPage = postDAO.getMaxPage();
-		
-		
-		//현재 보고 있는 페이지 수 확인
-		int pageNum = 1;
-		if(request.getParameter("pageNum") != null){
-			pageNum = Integer.parseInt(request.getParameter("pageNum"));
-		}
 	%>
 	<nav class="navbar navbar-expand-sm bg-light">
 		<a class="navbar-brand" href="index.jsp">JSP 게시판 페이지</a>
@@ -75,45 +65,28 @@
 	
 	<div class="container">
 		<div class="row">
+			<%
+				Post post = postDAO.getPost(Integer.parseInt(request.getParameter("postID")));
+			%>
 			<table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
 				<thead>
 					<tr>
-						<th class="table-head">번호</th>
-						<th class="table-head">제목</th>
-						<th class="table-head">작성자</th>
-						<th class="table-head">작성일</th>
+						<th class="table-head">ID : <%=post.getPostID()%></th>
+						<th class="table-head">제목 : <%=post.getTitle() %></th>
+						<th class="table-head">작성자 : <%=post.getUserID() %></th>
+						<th class="table-head">작성일 : <%=post.getWriteDate() %></th>
 					</tr>
 				</thead>
 				<tbody>
-					<%  //현재 페이지에 맞는 게시물들을 가져와 목록으로 출력
-						ArrayList<Post> list = postDAO.getPostList(pageNum);
-						for(int i = 0; i < list.size(); i++){				%>
-							<tr>
-								<td><%= list.get(i).getPostID() %></td>
-								<td><a href="view.jsp?postID=<%= list.get(i).getPostID()%>"><%= list.get(i).getTitle() %></a></td>
-								<td><%= list.get(i).getUserID() %></td>
-								<td><%= list.get(i).getWriteDate() %></td>
-							</tr>
-					<%	}%>
+					<tr>
+						<td colspan="4">
+							<%=post.getContent() %>
+						</td>
+					</tr>
 				</tbody>
 			</table>
-			<%
-				if(pageNum > 1) {
-			%>
-					<a href="index.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success">이전</a>
-			<%
-				}
-			%>
-				<%=pageNum%> / <%=maxPage%>
-			<%
-				if(pageNum < maxPage) {
-			%>
-					<a href="index.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success">다음</a>
-			<%
-				}
-			%>
-			
-			<a href="write.jsp" class="btn btn-primary float-right">글쓰기</a>
+			<a href="update.jsp?postID=<%=post.getPostID()%>" class="btn btn-success">수정</a>
+			<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 		</div>
 	</div>
 

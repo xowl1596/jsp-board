@@ -59,6 +59,8 @@ public class UserDAO {
 		}
 		return -2; // DB Error
 	}
+	
+	
 	/**
 	 * join(user) : int <br>
 	 * 유저 정보를 DB에 저장
