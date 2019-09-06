@@ -173,6 +173,17 @@ public class PostDAO {
 		return null; //DB 오류
 	}
 	
+	/**
+	 * update(postID, title, content) : int <br>
+	 * 게시물을 새 제목과 내용으로 업데이트
+	 * 
+	 * @param postID : 수정하고자 하는 게시물의 ID
+	 * @param title : 새로 수정하고자 하는 제목
+	 * @param content : 새로 수정하고자 하는 내용
+	 * @return -1 : DB 오류 발생 <br>
+	 * 			0 : SQL 에러 <br>
+	 * 		    1 : 정상 실행
+	 */
 	public int update(int postID, String title, String content) {
 		String sql = "UPDATE POSTS SET TITLE = ?, CONTENT = ? WHERE POST_ID = ?";
 		
@@ -188,6 +199,30 @@ public class PostDAO {
 		}
 		
 		return -1; //DB 오류
+	}
+	
+	/**
+	 * delete(postID) : int <br>
+	 * 게시물을 삭제상태로 둠
+	 * 
+	 * @param postID : 삭제하고자 하는 게시물ID
+	 * @return -1 : DB 오류 <br>
+	 * 			0:  SQL 에러 <br>
+	 *			1 : 정상 실행
+	 */		    
+	public int delete(int postID) {
+		String sql = "UPDATE POSTS SET POST_AVAILABLE = 0 WHERE POST_ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, postID);
+			
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }
 

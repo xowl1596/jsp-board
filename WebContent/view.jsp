@@ -86,6 +86,7 @@
 				</tbody>
 			</table>
 			<a href="update.jsp?postID=<%=post.getPostID()%>" class="btn btn-success">수정</a>
+			<a href="delete.jsp?postID=<%=post.getPostID()%>" class="btn btn-warning">삭제</a>
 			<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 		</div>
 	</div>
